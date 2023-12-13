@@ -22,7 +22,7 @@ public class AppTest
 
     @Test
     public void testSaleUtils(){
-        Integer res = SaleUtils.parseSaleType("JXX");
+        Integer res = SaleUtils.parseSaleType_Enums("JXX");
         System.err.println(res);
     }
 }
