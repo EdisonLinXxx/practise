@@ -2,6 +2,8 @@ package com.demo.sale;
 
 import java.util.Optional;
 
+import com.demo.Strategy.context.SaleTypeParseContext;
+import com.demo.Strategy.impl.JxSaleTypeParseStrategy;
 import com.demo.enums.SaleTypeRelEnum;
 
 public class SaleUtils {
@@ -39,6 +41,20 @@ public class SaleUtils {
     //扩展需求1 入参有很多种 定义枚举
     public static Integer parseSaleType_Enums(String saleTypeStr){
         return SaleTypeRelEnum.parseCode(saleTypeStr);
+    }
+
+    //扩展需求2 转换的的映射关系不再单纯，变得复杂 定义策略
+    public static Integer parseSaleType_Strategy(String saleTypeStr){
+        SaleTypeRelEnum saleTypeEnum = SaleTypeRelEnum.get(saleTypeStr);
+        SaleTypeParseContext context = new SaleTypeParseContext();
+        context.setSaleTypeEnum(saleTypeEnum);
+        switch(saleTypeEnum){
+            // 策略路由
+            case JX:context.setParseStrategy(new JxSaleTypeParseStrategy());break;
+            // 继续扩展
+            default:return null;
+        }
+        return context.parse();
     }
 
 }
